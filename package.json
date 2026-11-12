@@ -1,0 +1,4 @@
+{"name":"estoque-onion-chips","version":"11.0.0","private":true,
+"scripts":{"prepare-www":"node prepare.js"},
+"dependencies":{"@capacitor/android":"^6.2.0","@capacitor/core":"^6.2.0","@capacitor/share":"^6.0.3","tesseract.js":"5.1.1","@tesseract.js-data/por":"1.0.0"},
+"devDependencies":{"@capacitor/cli":"^6.2.0","@capacitor/assets":"^3.0.5"}}

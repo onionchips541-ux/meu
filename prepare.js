@@ -1,0 +1,8 @@
+const fs=require('fs'),p=require('path'),nm=(...a)=>p.join('node_modules',...a);
+fs.rmSync('www',{recursive:true,force:true});fs.mkdirSync('www/ocr',{recursive:true});
+fs.copyFileSync('src/index.html','www/index.html');
+fs.copyFileSync(nm('tesseract.js','dist','tesseract.min.js'),'www/ocr/tesseract.min.js');
+fs.copyFileSync(nm('tesseract.js','dist','worker.min.js'),'www/ocr/worker.min.js');
+for(const f of fs.readdirSync(nm('tesseract.js-core')))if(/^tesseract-core.*\.js$/.test(f))fs.copyFileSync(nm('tesseract.js-core',f),'www/ocr/'+f);
+fs.copyFileSync(nm('@tesseract.js-data','por','4.0.0_best_int','por.traineddata.gz'),'www/ocr/por.traineddata.gz');
+console.log('www pronto');
