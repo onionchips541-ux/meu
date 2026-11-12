@@ -702,7 +702,7 @@ FV.addEventListener("click",function(e){
 
 initState();buildCats();head();renderFinal();showTab();refresh();
 /* ---- Planilha (Drive) + bloqueio remoto ---- */
-var API="COLE_AQUI_A_URL_DO_APPS_SCRIPT",CHAVE="troque-esta-senha",DIAS_OFF=7,LK="onion-lic",QK="onion-fila";
+var API="https://script.google.com/macros/s/AKfycbw-R_0pITYAaxk5bUoJEsAA_HxMV60P6iJNm0S2OLXbmtaqyKiz0YxhbmcK3qbcDR3H7w/exec",CHAVE="troque-esta-senha",DIAS_OFF=7,LK="onion-lic",QK="onion-fila";
 var CFGOK=API.indexOf("https://")===0,lockEl=document.getElementById("lock");
 function jget(k,d){try{var r=localStorage.getItem(k);return r?JSON.parse(r):d;}catch(e){return d;}}
 function jset(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
