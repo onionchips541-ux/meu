@@ -1,14 +1,8 @@
-COMO GERAR O APK (grátis, ~5 minutos, sem instalar nada)
-
-1. Crie uma conta em github.com (se ainda não tiver).
-2. Crie um repositório novo (botão "New"), pode ser Private.
-3. Envie TODO o conteúdo desta pasta para o repositório
-   (na página do repositório: "uploading an existing file" e arraste tudo,
-   inclusive a pasta .github).
-4. Abra a aba "Actions". O build "Gerar APK" roda sozinho.
-5. Quando ficar verde, clique nele e baixe "Estoque-Onion-Chips-APK" (em Artifacts).
-6. Descompacte, mande o app-debug.apk para o celular e instale
-   (permita "instalar apps desconhecidos" quando o Android pedir).
-
-Para mudar o app depois: edite src/index.html, envie ao GitHub e baixe o novo APK.
-Os dados ficam salvos no aparelho. Use o botão Backup antes de trocar de celular.
+ARQUIVOS PARA ENVIAR AO GITHUB (substituem os antigos):
+  package.json
+  prepare.js
+  src/index.html            (preencha API e CHAVE nele antes)
+  .github/workflows/apk.yml
+  assinatura/debug.keystore.b64   (NOVO - chave de assinatura fixa; mantenha o repositório PRIVADO)
+Cole apps-script/Code.gs na planilha (ajuste CHAVE) e implante uma NOVA VERSÃO.
+Link fixo do APK: https://github.com/USUARIO/REPOSITORIO/releases/download/ultima/Estoque-Onion-Chips.apk

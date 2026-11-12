@@ -6,3 +6,6 @@ fs.copyFileSync(nm('tesseract.js','dist','worker.min.js'),'www/ocr/worker.min.js
 for(const f of fs.readdirSync(nm('tesseract.js-core')))if(/^tesseract-core.*\.js$/.test(f))fs.copyFileSync(nm('tesseract.js-core',f),'www/ocr/'+f);
 fs.copyFileSync(nm('@tesseract.js-data','por','4.0.0_best_int','por.traineddata.gz'),'www/ocr/por.traineddata.gz');
 console.log('www pronto');
+fs.mkdirSync('www/lib',{recursive:true});
+fs.copyFileSync(nm('jspdf','dist','jspdf.umd.min.js'),'www/lib/jspdf.umd.min.js');
+fs.copyFileSync(nm('jspdf-autotable','dist','jspdf.plugin.autotable.min.js'),'www/lib/jspdf.plugin.autotable.min.js');
