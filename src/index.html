@@ -166,6 +166,7 @@ textarea#obs{height:110px}
 
   <div class="more"><button class="btn sec" id="share" type="button">Copiar</button><button class="btn sec" id="reset" type="button">Zerar</button><button class="btn sec" id="bk" type="button">Backup</button><button class="btn sec" id="admBtn" type="button">🔐 Admin</button></div>
   <div id="shareBox" hidden><textarea id="shareText" aria-label="Texto para copiar ou colar"></textarea><div class="more"><button class="btn" id="bkRestore" type="button" hidden>Restaurar deste texto</button><button class="btn sec" id="bkRec" type="button" hidden>Recuperar contagem zerada</button></div></div>
+  <div id="waParts" class="card" hidden></div>
   </div>
 
   <div id="finalView" hidden></div>
@@ -180,71 +181,100 @@ textarea#obs{height:110px}
 (function(){
 var MESES=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 var NIVEL=["Cheio","Mais da metade","Metade","Menos da metade","Vazio"];
-var DCOZ=[["🍟","1. COZINHA",[
-"ALHO PARA ARROZ|Fechado (pct):c|Aberto (g):d",
-"ALHO CROCANTE|Fechado:c|Aberto:d",
-"ANEL DE CEBOLA – 1 KG|Fechado:c|Aberto:d",
-"ARROZ|Fechado (pct):c|Aberto (g):d",
-"BACON|Fechado (pacotes):c|Aberto (porções fracionadas):c",
-"BATATA – 2,5 KG|Fechado:c|Aberto (kg):d",
-"CALABRESA|Fechado (pct):c|Porcionado (fracionado):c",
-"CATUPIRY|Fechado (fx):c|Aberto (g):d",
-"CHEDDAR|Fechado:c|Aberto (g):d",
+var DCOZ=[[
+"🍟","1. COZINHA – ALIMENTOS",[
+"ALHO FRITO|Fechado:c|Aberto (kg):d",
+"ANEL DE CEBOLA|Fechado:c|Aberto (kg):d",
+"ARROZ|Fechado:c|Aberto (kg):d",
+"BACON|Fechado (pacotes):c|Porcionado:c",
+"BATATA|Fechado:c|Aberto (kg):d",
 "CONTRAFILÉ|Quantidade:c",
-"COXÃO MOLE|Quantidade:c",
+"CALABRESA|Fechado:c|Porcionado:c",
+"CEBOLA|Quantidade:c",
+"CHEIRO-VERDE|Porcionado (g):d",
 "CREME DE LEITE|Fechado:c|Aberto:d",
-"FARINHA DE ROSCA|Fechado (pct):c|Aberto (g):d",
-"FARINHA DE TRIGO|Fechado (pct):c|Aberto (g):d",
-"FEIJÃO|Fechado (pct):c|Aberto (kg):d",
-"FRANGO|Fechado (caixas):c|Aberto (un.):c",
-"FUBÁ|Fechado:c|Aberto (g):d",
-"GORDURA – BALDE|Fechado:c|Aberto:c",
-"LOMBO|Fechado (caixas):c|Peças:c|Porcionado (fracionado):c",
-"MOLHO DE TOMATE|Fechado (fx):c|Aberto:d",
-"MUÇARELA|Fechado (pc):c|Porcionado (fracionado):c",
-"NUGGETS|Fechado:c|Porcionado:c",
-"ÓLEO|Fechado:c|Aberto (g):d",
+"FARINHA DE ROSCA|Fechado:c|Aberto (kg):d",
+"FARINHA DE TRIGO|Fechado:c|Aberto (kg):d|Total informado (kg):x",
+"FRANGO|Fechado (caixas):c|Aberto (bacias):d",
+"FUBÁ|Fechado:c|Aberto (kg):d",
+"GORDURA – BALDE|Fechado:c|Aberto:d",
+"LIMÃO|Quantidade:c",
+"LOMBINHO|Fechado (caixas):c|Porcionado:c",
+"MUÇARELA|Fechado:c|Porcionado:c",
+"ÓLEO|Fechado:c|Aberto (ml):d",
 "OVOS|Quantidade:c",
-"PEITO DE FRANGO|Quantidade:c",
-"PIMENTA|Fechado (fx):c|Aberto (ml):d",
-"SABOR AMI|Fechado (kg):d|Potes fechados:c|Aberto (kg):d",
+"SABOR AMI|Fechado:c|Aberto (kg):d",
 "SAL|Fechado (pacotes):c|Aberto (g):d",
-"SHOYU|Fechado:c|Aberto (g):d",
-"TILÁPIA CROCANTE|Quantidade:c",
-"TILÁPIA IN NATURA|Fechado:c|Porções:c|Pratos:c"]],
-["🥫","2. MOLHOS",[
-"ALHONESE|Fechado:c|Aberto:d","BACONESE|Fechado:c|Aberto:d","BARBECUE|Fechado:c|Aberto (kg):d",
-"FRENCH|Fechado:c|Aberto (kg):d","GRILL BOM SABOR|Fechado:c|Aberto:d","GRILL JR|Fechado:c|Aberto:d",
-"KETCHUP|Fechado:c|Aberto (kg):d","MAIONESE|Fechado:c|Aberto:d","MOSTARDA|Fechado:c|Aberto:d",
-"MOSTARDA COM MEL|Fechado:c|Aberto:d","STROGONOFF|Porções:c"]],
-["📦","3. EMBALAGENS",[
-"BASE DA MARMITA 1|Fechado:c|Aberto (un.):c",
-"CAIXA NOVA G|Fechado:c|Aberto:c","CAIXA NOVA M|Fechado:c|Aberto:c","CAIXA NOVA P|Fechado:c|Aberto:c",
+"TILÁPIA CROCANTE|Fechado:c|Aberto:c",
+"TILÁPIA FILÉ|Fechado (kg):d|Porcionado:c"]],
+["🥫","2. MOLHOS E COMPLEMENTOS",[
+"ALHONESE|Fechado:c|Aberto (kg):d",
+"BACONESE|Fechado:c|Aberto (kg):d",
+"BARBECUE|Fechado:c|Aberto (kg):d",
+"CATUPIRY|Fechado:c|Aberto (kg):d",
+"CHEDDAR|Fechado:c|Aberto (kg):d",
+"FRENCH|Fechado:c|Aberto (kg):d",
+"KETCHUP|Fechado:c|Aberto (kg):d",
+"MAIONESE BALDE|Fechado:c|Aberto (kg):d",
+"MAIONESE GRILL|Fechado Grill Junior:c|Fechado Grill Bom Sabor:c|Aberto (g):d",
+"MAIONESE VERDE|Fechado:c|Aberto (kg):d",
+"MOSTARDA|Fechado:c|Aberto (kg):d",
+"PIMENTA|Fechado:c|Aberto (kg):d",
+"SHOYU|Fechado:c|Aberto (kg):d"]],
+["📦","3. EMBALAGENS E DESCARTÁVEIS",[
+"BOBINA PICOTADA|Fechado:c|Aberto:c",
+"CAIXA G|Tampas fechadas:c|Fundos fechados:c|Montadas:c",
+"CAIXA M|Fechado:c|Montadas:c",
+"CAIXA P|Fechado:c|Montadas:c",
 "CAMA G|Quantidade:c","CAMA M|Quantidade:c","CAMA P|Quantidade:c",
-"CONE DE BATATA|Fechado (fx):c|Aberto:c",
-"COPO 50 ML|Fechado (pacotes):c|Aberto (un.):c","COPO 100 ML|Fechado (pacotes):c|Aberto (un.):c","COPO 180 ML|Fechado (pacotes):c|Aberto (un.):c",
-"COPO VIAGEM COM TAMPA 2|Fechado:c|Aberto:c","GUARDANAPO|Fechado:c|Aberto:c","MARMITA 1|Fechado:c|Aberto:c",
-"PAPEL INTERFOLHA|Fechado (fx):c|Aberto:c","PRATO G|Fechado:c|Aberto:c","PRATO P|Fechado:c|Aberto:c",
-"RESMA DE BANDEJA|Fechado (pct):c|Aberto:x","SACOLINHA|Fechado (pct):c|Aberto:x",
-"SAQUINHO DE EMBALAR|Fechado (pct):c|Aberto:x","SAQUINHO DE FRACIONAR|Fechado (pct):c|Aberto:x"]],
-["🧹","4. LIMPEZA",[
-"ÁGUA SANITÁRIA|Fechado (fx):c|Aberto:c","BUCHA DE LOUÇA|Fechado:c|Aberto:c","BUCHA VERDE|Fechado:c|Aberto:c",
-"DESINFETANTE|Fechado:c|Aberto:c","DETERGENTE|Fechado:c|Aberto:c","PÁ|Quantidade:c","RODO|Quantidade:c",
-"SABÃO EM PÓ|Fechado:c|Aberto:c","SACO DE LIXO – 100 L|Pacotes:c|Unidades avulsas:c","VASSOURA|Quantidade:c"]]];
+"COPO 50 ML|Embalagens fechadas:c|Unidades abertas:c",
+"COPO 180 ML|Embalagens fechadas:c|Unidades abertas:c",
+"COPO 300 ML|Embalagens fechadas:c|Unidades abertas:c",
+"COPO 550 ML|Embalagens fechadas:c|Unidades abertas:c",
+"COPO COM TAMPA|Embalagens fechadas:c|Unidades abertas:c",
+"GUARDANAPO|Quantidade:c",
+"PALITO DE DENTE|Quantidade (caixinhas):c",
+"PAPEL INTERFOLHA|Fechado (fx):c",
+"PRATO G|Embalagens fechadas:c|Unidades abertas:c",
+"PRATO P|Embalagens fechadas:c|Unidades abertas:c",
+"SACO DE EMBALAR|Quantidade:c",
+"SACOLA PLÁSTICA|Quantidade:c|Fardos:c",
+"TOUCAS|Fechado:c|Aberto (un.):c"]],
+["🧹","4. LIMPEZA E HIGIENE",[
+"DESENGORDURANTE|Fechado:c|Aberto:c",
+"DESINFETANTE|Fechado:c|Aberto (ml):d",
+"DETERGENTE|Fechado:c|Aberto:c",
+"Q’BOA|Fechado:c|Aberto:c",
+"SABÃO LÍQUIDO PARA ROUPAS|Fechado:c|Aberto:d",
+"SACO DE LIXO – REFIL|Reforçado:c|Fino:c",
+"SACO DE LIXO – ROLO|Fechado:c|Em uso:c"]]];
 var DFRENTE=[
 ["🥤","1. BEBIDAS – ORDEM ALFABÉTICA",[
 "ÁGUA COM GÁS|Fardos:c|Geladeira (un.):c",
 "ÁGUA SEM GÁS|Fardos:c|Geladeira (un.):c",
 "ÁGUA TÔNICA LATA|Fardos:c|Geladeira (un.):c",
+"ANTARCTICA 300 ML|Quantidade (un.):c",
+"BRAHMA 300 ML|Quantidade (un.):c",
+"BUDWEISER 300 ML|Quantidade (un.):c",
 "CHOPP DE VINHO|Barris fechados:c|Barris em uso:c|Litros restantes:n",
 "CHOPP PILSEN|Barris fechados:c|Barris em uso:c|Litros restantes:n",
 "CITRUS LATA|Fardos:c|Geladeira (un.):c",
 "COCA-COLA 1 L|Fardos:c|Geladeira (un.):c",
 "COCA-COLA 1 L ZERO|Fardos:c|Geladeira (un.):c",
+"COCA-COLA 2 L|Fardos:c|Geladeira (un.):c",
+"COCA-COLA 2 L ZERO|Fardos:c|Geladeira (un.):c",
 "COCA-COLA 600 ML|Fardos:c|Geladeira (un.):c",
 "COCA-COLA 600 ML ZERO|Fardos:c|Geladeira (un.):c",
 "COCA-COLA LATA|Fardos:c|Geladeira (un.):c",
 "COCA-COLA LATA ZERO|Fardos:c|Geladeira (un.):c",
+"COCA-COLA ZERO SEM CAFEÍNA|Fardos:c|Geladeira (un.):c",
+"DEL VALLE GOIABA|Fardos:c|Geladeira (un.):c",
+"DEL VALLE LARANJA 1 L|Fardos:c|Geladeira (un.):c",
+"DEL VALLE MARACUJÁ|Fardos:c|Geladeira (un.):c",
+"DEL VALLE PÊSSEGO|Fardos:c|Geladeira (un.):c",
+"DEL VALLE UVA|Fardos:c|Geladeira (un.):c",
+"DEL VALLE UVA 1 L|Fardos:c|Geladeira (un.):c",
+"ENERGÉTICO|Fardos:c|Geladeira (un.):c",
 "FANTA LARANJA 600 ML|Fardos:c|Geladeira (un.):c",
 "FANTA LARANJA LATA|Fardos:c|Geladeira (un.):c",
 "FANTA UVA 600 ML|Fardos:c|Geladeira (un.):c",
@@ -252,23 +282,24 @@ var DFRENTE=[
 "GUARANÁ 1 L|Fardos:c|Geladeira (un.):c",
 "GUARANÁ 600 ML|Fardos:c|Geladeira (un.):c",
 "GUARANÁ LATA|Fardos:c|Geladeira (un.):c",
-"HEINEKEN|Fardos:c|Geladeira (un.):c",
+"GUARANÁ PAULISTA 2 L|Fardos:c|Geladeira (un.):c",
+"HEINEKEN 0%|Fardos:c|Geladeira (un.):c",
+"HEINEKEN COM ÁLCOOL|Fardos:c|Geladeira (un.):c",
 "HEINEKEN ULTIMATE|Fardos:c|Geladeira (un.):c",
-"HEINEKEN ZERO|Fardos:c|Geladeira (un.):c",
+"ICE 51 LIMÃO|Quantidade (un.):c",
 "LIMONETO|Fardos:c|Geladeira (un.):c",
+"ORIGINAL 300 ML|Quantidade (un.):c",
+"SKOL 300 ML|Quantidade (un.):c",
+"SMIRNOFF ICE FRAMBOESA|Quantidade (un.):c",
+"SMIRNOFF ICE LIMÃO|Quantidade (un.):c",
 "SPRITE 600 ML|Fardos:c|Geladeira (un.):c",
-"SPRITE LATA|Fardos:c|Geladeira (un.):c",
-"SPRITE LEMON|Fardos:c|Geladeira (un.):c",
-"SUCO DE LARANJA 300 ML|Quantidade (un.):c",
-"SUCO DE LARANJA 1 L|Quantidade (un.):c",
-"SUCO DE UVA 300 ML|Quantidade (un.):c",
-"SUCO DE UVA 1 L|Quantidade (un.):c"]],
+"SPRITE LATA|Fardos:c|Geladeira (un.):c"]],
 ["📎","2. EQUIPAMENTOS E MATERIAIS DE ESCRITÓRIO",[
 "BLOCO DE VALE FREELANCE|Quantidade (blocos):c",
 "BOBINA DE IMPRESSORA|Quantidade:c",
 "BOBINA DE MAQUININHA DE CARTÃO|Quantidade:c",
 "ENVELOPE DE FECHAMENTO|Quantidade:c",
-"GRAMPO|Quantidade:c"]]];
+"GRAMPO|Fechado (caixas):c|Aberto (caixas):c"]]];
 function parseD(a){a.forEach(function(c){c[2]=c[2].map(function(s){var p=s.split("|");return {n:p[0],f:p.slice(1).map(function(x){var q=x.split(":");return {l:q[0],t:q[1]};})};});});return a;}
 parseD(DCOZ);parseD(DFRENTE);
 var LISTS={
@@ -531,19 +562,45 @@ function report(){
   if(CFG.foot&&S.obs)o.push(LINE,"📝 OBSERVAÇÕES: "+S.obs);
   return o.join("\n");
 }
-function reportWA(){
-  var o=["*📋 ONION CHIPS – SHOPPING PRAÇA NOVA*"].concat(headerLines().map(function(l){return l.replace(/^(📅|📆|👤)\s*([^:]+):/,"$1 *$2:*");}));
-  var wl=warnList();if(wl.length)o.push("⚠ *CONFERIR:* "+wl.join(", "),"");
-  D.forEach(function(c,ci){
-    o.push("*"+c[0]+" "+c[1]+"*");
-    c[2].forEach(function(it){
-      o.push("▸ *"+it.n+"*");
+function waStruct(){
+  var head=["*📋 ONION CHIPS – SHOPPING PRAÇA NOVA*"].concat(headerLines().map(function(l){return l.replace(/^(📅|📆|👤)\s*([^:]+):/,"$1 *$2:*");}));
+  var wl=warnList();if(wl.length)head.push("⚠ *CONFERIR:* "+wl.join(", "),"");
+  var cats=D.map(function(c,ci){
+    return {t:"*"+c[0]+" "+c[1]+"*",items:c[2].map(function(it){
+      var o=["▸ *"+it.n+"*"];
       it.f.forEach(function(f,fi){var kk=ci+"|"+it.n+"|"+fi;o.push("   • "+fl(f.l)+": *"+(showVal(kk)||"—")+"*"+(S.h[kk]?" _("+S.h[kk]+")_":""));});
-    });
-    o.push("");
+      return o;})};
   });
-  if(CFG.foot&&S.obs)o.push("📝 *Observações:* "+S.obs);
-  return o.join("\n");
+  return {head:head,cats:cats,foot:(CFG.foot&&S.obs)?["📝 *Observações:* "+S.obs]:[]};
+}
+function reportWA(){
+  var s=waStruct(),o=s.head.slice();
+  s.cats.forEach(function(c){o.push(c.t);c.items.forEach(function(i){o.push.apply(o,i);});o.push("");});
+  return o.concat(s.foot).join("\n");
+}
+/* O WhatsApp corta mensagens muito longas: divide em partes (sempre entre produtos) */
+function reportWAparts(max){
+  var s=waStruct(),parts=[],cur=s.head.slice(),open=null,hasItem=false,started=[];
+  function L(a){return a.join("\n").length+1;}
+  function flush(){while(cur.length&&cur[cur.length-1]==="")cur.pop();parts.push(cur);cur=[];open=null;hasItem=false;}
+  s.cats.forEach(function(c,ci){
+    c.items.forEach(function(it){
+      var add=(open===ci?[]:[started[ci]?c.t.slice(0,-1)+" (cont.)*":c.t]).concat(it);
+      if(hasItem&&L(cur)+L(add)>max){flush();add=[c.t.slice(0,-1)+" (cont.)*"].concat(it);}
+      cur.push.apply(cur,add);open=ci;started[ci]=true;hasItem=true;
+    });
+    cur.push("");open=null;
+  });
+  if(s.foot.length){if(L(cur)+L(s.foot)>max)flush();cur.push.apply(cur,s.foot);}
+  flush();
+  var n=parts.length,dt=headerLines()[4].replace("📅 DATA: ","");
+  return parts.map(function(a,i){
+    if(n===1)return a.join("\n");
+    var tag=" ("+(i+1)+"/"+n+")";
+    if(i===0)a[0]=a[0].slice(0,-1)+tag+"*";
+    else a.unshift("*📋 ONION CHIPS – "+(CFG.id==="frente"?"FRENTE":"COZINHA")+tag+"*","📅 *DATA:* "+dt,"");
+    return a.join("\n");
+  });
 }
 document.getElementById("share").addEventListener("click",function(){
   var text=report();
@@ -553,10 +610,20 @@ document.getElementById("share").addEventListener("click",function(){
   }catch(e){}
   fb();
 });
+function enviarWA(text){if(sharer(text))return;window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");}
+var WAP=document.getElementById("waParts"),WAT=[];
 document.getElementById("wa").addEventListener("click",function(){
-  var text=reportWA();
-  if(sharer(text))return;
-  window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
+  WAT=reportWAparts(3000);
+  if(WAT.length===1){enviarWA(WAT[0]);return;}
+  var h='<b>📤 Relatório grande: enviar em '+WAT.length+' partes</b><p class="hint">O WhatsApp corta mensagens muito longas. Envie as partes na ordem, uma de cada vez.</p>';
+  WAT.forEach(function(t,i){h+='<button class="btn" type="button" data-wp="'+i+'">Enviar parte '+(i+1)+' de '+WAT.length+'</button>';});
+  h+='<button class="btn sec" type="button" data-wp="x">Fechar</button>';
+  WAP.innerHTML=h;WAP.hidden=false;WAP.scrollIntoView({behavior:"smooth",block:"center"});
+});
+WAP.addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;var v=b.dataset.wp;if(v===undefined)return;
+  if(v==="x"){WAP.hidden=true;WAP.innerHTML="";return;}
+  enviarWA(WAT[+v]);b.textContent="✓ Parte "+(+v+1)+" enviada (tocar para reenviar)";
 });
 
 function buildPrint(){
